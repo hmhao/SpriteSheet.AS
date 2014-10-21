@@ -22,7 +22,7 @@ package {
 			assetManager.getGroupAssets("spritesheets-xml", ["data/xml/xmlformat.xml", "data/xml/xmlformat.png"], onAnimLoadedXML);
 			assetManager.getGroupAssets("spritesheets-jsonarray1", ["data/json-array/jsonarrayformat.json", "data/json-array/jsonarrayformat.png"], onAnimLoadedJsonArray1);
 			
-			//assetManager.getGroupAssets("spritesheets-jsonarray2", ["data/json-array/xlbird.json", "data/json-array/xlbird.png"], onAnimLoadedJsonArray2);
+			assetManager.getGroupAssets("spritesheets-jsonarray2", ["data/json-array/xlbird.json", "data/json-array/xlbird.png"], onAnimLoadedJsonArray2);
 		}
 		
 		private function onAnimLoaded():void {
@@ -126,14 +126,15 @@ package {
 			var bitmapData:BitmapData = assetManager.bulkLoader.getBitmapData("data/json-array/xlbird.png");
 			var atlas:* = assetManager.getContent("data/json-array/xlbird.json");
 			var textureAtlas:TextureAtlas = new TextureAtlas(Texture.fromBitmapData(bitmapData), atlas, DataType.FORMAT_JSON_ARRAY);
-			var sp:SpriteSheet = new SpriteSheet(textureAtlas.getTextures("hi"), 15);
-			sp.play();
-			addChild(sp);
-			
-			sp = new SpriteSheet(textureAtlas.getTextures("bashful"), 14);
-			sp.x = 50;
-			sp.play();
-			addChild(sp);
+			var prefixs:Vector.<String> = textureAtlas.getPrefixs();
+			var sp:SpriteSheet;
+			for (var i:int = 0, len:int = prefixs.length; i < len; i++ ) {
+				sp = new SpriteSheet(textureAtlas.getTextures(prefixs[i]), 8);
+				sp.x = 38 * i + 1;
+				sp.y = 400;
+				sp.play();
+				addChild(sp);
+			}
 		}
 	}
 }

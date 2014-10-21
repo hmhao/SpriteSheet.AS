@@ -8,13 +8,14 @@ package com.spritesheet.textures {
 	import flash.utils.getQualifiedClassName;
 	import com.spritesheet.errors.AbstractClassError;
 	import com.spritesheet.utils.getNextPowerOfTwo;
-	
+	/**
+	 * @author hmh
+	 */
 	public class Texture {
 		public var bitmapData:BitmapData;
 		public var width:int;
 		public var height:int;
 		
-		/** @private */
 		public function Texture() {
 			
 		}
@@ -24,11 +25,9 @@ package com.spritesheet.textures {
 			bitmapData = null;
 		}
 		
-		/** Creates a texture object from any of the supported data types, using the specified
-		 *  options.
+		/** 从任意支持的数据类型创建一个texture对象.
 		 *
-		 *  @param data:    Either an embedded asset class, a Bitmap, BitmapData.
-		 *  @param options: Specifies options about the texture settings, e.g. scale factor.
+		 *  @param data:    嵌入的资源类,位图或位图数据.
 		 */
 		public static function fromData(data:Object):Texture {
 			var texture:Texture = null;
@@ -46,9 +45,9 @@ package com.spritesheet.textures {
 			return texture;
 		}
 		
-		/** Creates a texture object from an embedded asset class.
+		/** 从嵌入的资源类创建一个texture对象.
 		 *
-		 *  @param assetClass: must contain either a Bitmap or a ByteArray with ATF data.
+		 *  @param assetClass: 必须是一个位图.
 		 */
 		public static function fromEmbeddedAsset(assetClass:Class):Texture {
 			var texture:Texture;
@@ -60,23 +59,21 @@ package com.spritesheet.textures {
 				throw new ArgumentError("Invalid asset type: " + getQualifiedClassName(asset));
 			}
 			
-			asset = null; // avoid that object stays in memory (through 'onRestore' functions)
+			asset = null; // 避免对象保持在内存
 			return texture;
 		}
 		
-		/** Creates a texture object from a bitmap.
+		/** 从一个位图创建一个texture对象.
 		 *
-		 *  @param bitmap:  the texture will be created with the bitmap data of this object.
+		 *  @param bitmap:  texture对象将由此位图的数据创建.
 		 */
 		public static function fromBitmap(bitmap:Bitmap):Texture {
 			return fromBitmapData(bitmap.bitmapData);
 		}
 		
-		/** Creates a texture object from bitmap data.
-		 *  Beware: you must not dispose 'data' if Starling should handle a lost device context;
-		 *  alternatively, you can handle restoration yourself via "texture.root.onRestore".
+		/** 从一个位图数据创建一个texture对象.
 		 *
-		 *  @param data:  the texture will be created with the bitmap data of this object.
+		 *  @param data:  texture对象将由此位图数据创建.
 		 */
 		public static function fromBitmapData(data:BitmapData):Texture {
 			var texture:Texture = Texture.empty(data.width, data.height);
@@ -84,8 +81,8 @@ package com.spritesheet.textures {
 			return texture;
 		}
 		
-		/** Creates a texture that contains a region (in pixels) of another texture. The new
-		 *  texture will reference the base texture; no data is duplicated. */
+		/** 从给定的texture中创建一个指定区（像素）的subtexture.
+		 * 	新的subtexture将参考texture,没有数据重复. */
 		public static function fromTexture(texture:Texture, region:Rectangle, offset:Point):Texture {
 			region.width += offset.x;
 			region.height += offset.y;
@@ -96,12 +93,10 @@ package com.spritesheet.textures {
 			return subTexture;
 		}
 		
-		/** Creates an empty texture of a certain size.
-		 *  Beware that the texture can only be used after you either upload some color data
-		 *  ("texture.root.upload...") or clear the texture ("texture.root.clear()").
+		/** 创建一个指定尺寸的空.
 		 *
-		 *  @param width:  in points; number of pixels depends on scale parameter
-		 *  @param height: in points; number of pixels depends on scale parameter
+		 *  @param width:  宽.
+		 *  @param height: 高.
 		 */
 		public static function empty(width:Number, height:Number):Texture {
 			var actualWidth:int, actualHeight:int;

@@ -37,11 +37,14 @@ package com.spritesheet.textures.analyze {
 				}
 			} else {
 				frames = data;
+				var index:int;
 				for (var name:String in frames) {
+					index = 0;
 					for each (item in frames[name]) {
 						region = new Rectangle(item.x, item.y, item.w, item.h);
 						offset = new Point(0, 0);
-						textureInfos[name] = new TextureInfo(region, offset);
+						textureInfos[name + index] = new TextureInfo(region, offset);
+						index++;
 					}
 				}
 			}
